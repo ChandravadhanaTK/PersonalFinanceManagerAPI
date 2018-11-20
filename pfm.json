@@ -1,97 +1,72 @@
 {
   "swagger": "2.0",
   "info": {
+    "description": "Ease-of-use Personal Finance Manager application to track financial details",
     "version": "1.0.0",
     "title": "Personal Finance Manager",
-    "description": "Simple Personal Finance Manager application to track investments",
     "termsOfService": "terms",
     "contact": {
-      "name": "Tembong Fonji",
-      "email": "tembong_fonji@syntelinc.com"
+      "name": "JavaJ2EEFSEWorkshop1",
+      "email": "JavaJ2EEFSEWorkshop1@syntelinc.com"
     },
     "license": {
-      "name": "MIT",
-      "url": "http://opensource.org/licenses/MIT"
+      "name": "JavaJ2EEFSEWorkshop1",
+      "url": "http://opensource.org/licenses/JavaJ2EEFSEWorkshop1"
     }
   },
+  "host": "localhost:8080",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "login",
+      "description": "User login to Personal Finance Manager application."
+    },
+    {
+      "name": "register",
+      "description": "Register a user to Personal Finance Manager application."
+    },
+    {
+      "name": "expense",
+      "description": "expense Information."
+    },
+    {
+      "name": "income",
+      "description": "All about your incomes"
+    },
+    {
+      "name": "investments",
+      "description": "All about your investments"
+    },
+    {
+      "name": "budget",
+      "description": "Budget Trends Plots"
+    },
+    {
+      "name": "bankAccount",
+      "description": "All your bank accounts"
+    },
+    {
+      "name": "profile",
+      "description": "View profile details"
+    },
+    {
+      "name": "settings",
+      "description": "To View/Edit your settings"
+    }
+  ],
   "schemes": [
     "http",
     "https"
   ],
-  "host": "pfm.base.url",
-  "basePath": "/v1",
-  "tags": [
-    {
-      "name": "investor",
-      "description": "Investor Information."
-    },
-    {
-      "name": "investment",
-      "description": "Investment Information."
-    }
-  ],
   "paths": {
-    "/investor": {
-      "get": {
-        "tags": [
-          "investor"
-        ],
-        "summary": "find an investor.",
-        "description": "retrieve an investor's personal information and portfolio by specifying an investor_id.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "id for investor for whom information is to be retrieved.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/investor_id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "investor information successfully retrieved.",
-            "schema": {
-              "$ref": "#/definitions/investor"
-            }
-          }
-        }
-      }
-    },
-    "/investor/all": {
-      "get": {
-        "tags": [
-          "investor"
-        ],
-        "summary": "find all investors.",
-        "description": "retrieve all investors. this will include personal information and portfolio information for each investor.",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "investor information successfully retrieved.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/investor"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/investor/new": {
+    "/login": {
       "post": {
         "tags": [
-          "investor"
+          "login"
         ],
-        "summary": "add a new investor.",
-        "description": "add a new investor to the database. first_name and last_name are the only required fields.",
+        "summary": "Authenticate a valid user.",
+        "description": "Authenticate a valid user",
+        "operationId": "loginUser",
         "produces": [
           "application/json"
         ],
@@ -99,92 +74,32 @@
           {
             "in": "body",
             "name": "body",
-            "description": "investor object to add to database.",
+            "description": "User needs to be authenticated. Password must be encrypted.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/investor_name"
+              "$ref": "#/definitions/userDetail"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "investor information successfully added to database.",
-            "schema": {
-              "$ref": ""
-            }
+            "description": "User Authentication successful."
+          },
+          "404": {
+            "description": "User Authentication failed."
           }
-        }
+        },
+        "security": []
       }
     },
-    "/investor/delete": {
-      "delete": {
-        "tags": [
-          "investor"
-        ],
-        "summary": "delete investor.",
-        "description": "delete an existing investor by specifying an investor_id.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "investor to delete from database.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/investor_id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "investor successfully delelted from database."
-          }
-        }
-      }
-    },
-    "/investmentById": {
-      "get": {
-        "tags": [
-          "investment"
-        ],
-        "summary": "find a unique investment.",
-        "description": "retrieve an investment by specifying an investment_id.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "investment_id for investment to be retrieved.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/investment_id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "investment successfully retrieved.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/investment"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/investment/new": {
+    "/register/new": {
       "post": {
         "tags": [
-          "investment"
+          "register"
         ],
-        "summary": "new investment.",
-        "description": "create a new investment for an existing investor.",
+        "summary": "Register user.",
+        "description": "Register user to the database. All fields are required fields. Password must be encrypted.",
+        "operationId": "registerUser",
         "produces": [
           "application/json"
         ],
@@ -192,33 +107,133 @@
           {
             "in": "body",
             "name": "body",
-            "description": "investment object to add to database.",
+            "description": "User registration.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/investment"
+              "$ref": "#/definitions/registeruser"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "investment successfully added to database.",
+            "description": "User information successfully added to database.",
+            "schema": {
+              "$ref": "#/definitions/registeruser"
+            }
+          },
+          "404": {
+            "description": "User Registration Failed."
+          }
+        },
+        "security": []
+      }
+    },
+    "/sendEmail": {
+      "post": {
+        "tags": [
+          "register"
+        ],
+        "summary": "Send OTP to user via eMail.",
+        "description": "Send OTP to user via eMail. eMail is manadatory.",
+        "operationId": "sendEmailToUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Send OTP mail.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sendEmail"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Send OTP mail.",
+            "schema": {
+              "$ref": "#/definitions/sendEmail"
+            }
+          },
+          "404": {
+            "description": "Send OTP to user via eMail Failed."
+          }
+        }
+      }
+    },
+    "/activateUser": {
+      "post": {
+        "tags": [
+          "register"
+        ],
+        "summary": "Activating the User.",
+        "description": "Activating the user by validating with OTP.",
+        "operationId": "activateUserLoginAccount",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Activating user.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/activateUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Activating user.",
+            "schema": {
+              "$ref": "#/definitions/activateUser"
+            }
+          },
+          "404": {
+            "description": "Activating the user by validating with OTP Failed."
+          }
+        }
+      }
+    },
+    "/expense/all/": {
+      "get": {
+        "tags": [
+          "expense"
+        ],
+        "summary": "expenses list",
+        "description": "Returns the list of all expenses",
+        "operationId": "getExpenseList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/investment"
+                "$ref": "#/definitions/Expense"
               }
             }
           }
         }
       }
     },
-    "/investment/delete": {
-      "delete": {
+    "/expense/new": {
+      "put": {
         "tags": [
-          "investment"
+          "expense"
         ],
-        "summary": "delete investment.",
-        "description": "delete an existing investment by specifying an investment_id.",
+        "summary": "Create new expense",
+        "description": "Creates new expense",
+        "operationId": "addExpense",
+        "consumes": [
+          "application/json"
+        ],
         "produces": [
           "application/json"
         ],
@@ -226,177 +241,1283 @@
           {
             "in": "body",
             "name": "body",
-            "description": "investment object to delete from database.",
+            "description": "Expense object that needs to be added to the store",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/investor_id"
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/expense/edit": {
+      "post": {
+        "tags": [
+          "expense"
+        ],
+        "summary": "Update expense",
+        "description": "Updates the expense",
+        "operationId": "updateExpense",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Expense object that needs to be updated to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Expense not found"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/expense/search": {
+      "get": {
+        "tags": [
+          "expense"
+        ],
+        "summary": "find search expense details.",
+        "description": "retrieve all expense. this will include personal expense information.",
+        "operationId": "getExpenseByKey",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "expenseKey",
+            "in": "query",
+            "description": "ID of expense to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Expense"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Expense not found"
+          }
+        }
+      }
+    },
+    "/expense/delete/{expenseId}": {
+      "delete": {
+        "tags": [
+          "expense"
+        ],
+        "summary": "Deletes a expense",
+        "description": "Deltes the expense",
+        "operationId": "deleteExpense",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "expenseId",
+            "in": "path",
+            "description": "Expense id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Expense not found"
+          }
+        }
+      }
+    },
+    "/expense/{expenseId}": {
+      "get": {
+        "tags": [
+          "expense"
+        ],
+        "summary": "get expense by id",
+        "description": "Returns the particular expense",
+        "operationId": "getExpense",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "expenseId",
+            "in": "path",
+            "description": "id to search for expense",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        }
+      }
+    },
+    "/income/{incomeId}": {
+      "get": {
+        "tags": [
+          "income"
+        ],
+        "summary": "get income by id",
+        "description": "Returns the particular income",
+        "operationId": "getIncome",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "incomeId",
+            "in": "path",
+            "description": "id to search for income",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Income"
+            }
+          }
+        }
+      }
+    },
+    "/income/all": {
+      "get": {
+        "tags": [
+          "income"
+        ],
+        "summary": "incomes list",
+        "description": "Returns the list of all incomes",
+        "operationId": "getIncomeList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Income"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/income/new": {
+      "put": {
+        "tags": [
+          "income"
+        ],
+        "summary": "Create new income",
+        "description": "Creates new income",
+        "operationId": "addIncome",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Income object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Income"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/income/edit": {
+      "post": {
+        "tags": [
+          "income"
+        ],
+        "summary": "Update income",
+        "description": "Updates the income",
+        "operationId": "updateIncome",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Income object that needs to be updated to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Income"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Income not found"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/income/search": {
+      "get": {
+        "tags": [
+          "income"
+        ],
+        "summary": "Searches income by incomeKey",
+        "description": "Returns all income matching the incomeKey",
+        "operationId": "getIncomeByKey",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "incomeKey",
+            "in": "query",
+            "description": "Key to search for income",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Income"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Income not found"
+          }
+        }
+      }
+    },
+    "/income/delete/{incomeId}": {
+      "delete": {
+        "tags": [
+          "income"
+        ],
+        "summary": "Deletes a income",
+        "description": "Deltes the income",
+        "operationId": "deleteIncome",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "incomeId",
+            "in": "path",
+            "description": "Income id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Income not found"
+          }
+        }
+      }
+    },
+    "/investments/{investmentsId}": {
+      "get": {
+        "tags": [
+          "investments"
+        ],
+        "summary": "get investments by id",
+        "description": "Returns the particular investments",
+        "operationId": "getInvestments",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "investmentsId",
+            "in": "path",
+            "description": "id to search for investments",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Investments"
+            }
+          }
+        }
+      }
+    },
+    "/investments/all": {
+      "get": {
+        "tags": [
+          "investments"
+        ],
+        "summary": "investments list",
+        "description": "Returns the list of investments",
+        "operationId": "getInvestmentsList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Investments"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/investments/new": {
+      "put": {
+        "tags": [
+          "investments"
+        ],
+        "summary": "Create new investments",
+        "description": "Creates new investments",
+        "operationId": "addInvestments",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Investments object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Investments"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/investments/edit": {
+      "post": {
+        "tags": [
+          "investments"
+        ],
+        "summary": "Update investments",
+        "description": "Updates the investments",
+        "operationId": "updateInvestments",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Investments object that needs to be updated to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Investments"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Investments not found"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/investments/search": {
+      "get": {
+        "tags": [
+          "investments"
+        ],
+        "summary": "Find all Investments matching by investmentsKey",
+        "description": "Returns investments matching the investmentsKey",
+        "operationId": "getInvestmentsByKey",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "investmentsKey",
+            "in": "query",
+            "description": "ID of investments to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Investments"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Investments not found"
+          }
+        }
+      }
+    },
+    "/investments/delete/{investmentsId}": {
+      "delete": {
+        "tags": [
+          "investments"
+        ],
+        "summary": "Deletes a investments",
+        "description": "Deletes the investments",
+        "operationId": "deleteInvestments",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "investmentsId",
+            "in": "path",
+            "description": "Investments id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Investments not found"
+          }
+        }
+      }
+    },
+    "/budget/plot": {
+      "post": {
+        "tags": [
+          "budget"
+        ],
+        "summary": "Plot the budget trends",
+        "description": "Returns a budget over a range",
+        "operationId": "getByDate",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Returns a income, expense, investments over the dateRange.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dateRange"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "investment successfully delelted from database."
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/budget"
+            }
+          },
+          "400": {
+            "description": "Invalid dateRange supplied"
+          },
+          "404": {
+            "description": "budget fetch operation failed"
+          }
+        }
+      }
+    },
+    "/bankAccount/{bankAccountId}": {
+      "get": {
+        "tags": [
+          "bankAccount"
+        ],
+        "summary": "get bankAccount by id",
+        "description": "Returns the particular bankAccount",
+        "operationId": "getBankAccount",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "bankAccountId",
+            "in": "path",
+            "description": "id to search for bankAccount",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/BankAccount"
+            }
+          }
+        }
+      }
+    },
+    "/bankAccount/all": {
+      "get": {
+        "tags": [
+          "bankAccount"
+        ],
+        "summary": "bank accounts list",
+        "description": "Returns the list of bank accounts",
+        "operationId": "getBankAccountsList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BankAccount"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bankAccount/new": {
+      "put": {
+        "tags": [
+          "bankAccount"
+        ],
+        "summary": "Create new bank account",
+        "description": "Creates new bank account",
+        "operationId": "addBankAccount",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Bank Account object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BankAccount"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/bankAccount/search": {
+      "get": {
+        "tags": [
+          "bankAccount"
+        ],
+        "summary": "Searches Bank Accounts by bankAccountKey",
+        "description": "Returns all bank accounts matching the bankAccountKey",
+        "operationId": "getBankAccountByKey",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "bankAccountKey",
+            "in": "query",
+            "description": "Key to search for Bank Accounts",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BankAccount"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Bank Account not found"
+          }
+        }
+      }
+    },
+    "/bankAccount/delete/{bankAccountId}": {
+      "delete": {
+        "tags": [
+          "bankAccount"
+        ],
+        "summary": "Deletes a bank account",
+        "description": "Deletes the bank account",
+        "operationId": "deleteBankAccount",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "bankAccountId",
+            "in": "path",
+            "description": "Bank Account id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Bank Account not found"
+          }
+        }
+      }
+    },
+    "/profile/{emailId}": {
+      "get": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Get profile details of user",
+        "description": "fetch profile information by specifying an emailId.",
+        "operationId": "getProfileByEmailId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "emailId",
+            "description": "email id of user for whom information is to be retrieved.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user profile information successfully retrieved.",
+            "schema": {
+              "$ref": "#/definitions/profile"
+            }
+          }
+        }
+      }
+    },
+    "/profile/edit": {
+      "post": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "edit profile details.",
+        "description": "Edit details like emailId, firstName, lastName, phone#, companyName, profilePic are the required fields.",
+        "operationId": "editProfileByEmailId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "editprofile object to add to database.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/profile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user profile information successfully added to database."
+          }
+        }
+      }
+    },
+    "/userSettings/passwordUpdate": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "modify your password in settings screen",
+        "description": "change your profile settings (Password).",
+        "operationId": "userPasswordUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User Profile Settings - Change Password.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userPassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Password information successfully updated to database.",
+            "schema": {
+              "$ref": "#/definitions/userSettingsByEmailId"
+            }
+          },
+          "404": {
+            "description": "User Password information failed to be updated to database."
+          }
+        }
+      }
+    },
+    "/userSettings/currencyUpdate": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "modify your currency in settings screen",
+        "description": "change your profile settings (Currency).",
+        "operationId": "userCurrencyUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User Profile Settings - Change Currency.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userCurrency"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information successfully updated to database.",
+            "schema": {
+              "$ref": "#/definitions/userSettingsByEmailId"
+            }
+          },
+          "404": {
+            "description": "User information failed to be updated to database."
+          }
+        }
+      }
+    },
+    "/settings/{emailId}": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "find a unique user settings.",
+        "description": "retrieve the user settings by specifying an emailId.",
+        "operationId": "getSettings",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "emailId",
+            "description": "Get User Profile Settings by email id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile settings successfully retrieved.",
+            "schema": {
+              "$ref": "#/definitions/userSettingsByEmailId"
+            }
+          },
+          "404": {
+            "description": "User profile settings failed to be retrieved."
           }
         }
       }
     }
   },
   "definitions": {
-    "investor_id": {
+    "userDetail": {
+      "required": [
+        "emailId",
+        "password"
+      ],
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "userStatus": {
+          "type": "boolean"
+        }
+      }
+    },
+    "registeruser": {
+      "type": "object",
+      "required": [
+        "firstName",
+        "lastName",
+        "emailId",
+        "password",
+        "mobileNumber"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "mobileNumber": {
+          "type": "number"
+        }
+      }
+    },
+    "sendEmail": {
       "type": "string",
       "required": [
-        "investor_id"
+        "emailId"
       ],
       "properties": {
-        "investor_id": {
+        "emailId": {
           "type": "string"
         }
       }
     },
-    "investment_id": {
-      "type": "string",
+    "activateUser": {
+      "type": "number",
       "required": [
-        "investment_id"
+        "otp",
+        "emailId"
       ],
       "properties": {
-        "investmentId": {
+        "otp": {
+          "type": "number"
+        },
+        "emailId": {
           "type": "string"
         }
       }
     },
-    "investor": {
+    "Expense": {
       "type": "object",
       "required": [
-        "first_name",
-        "last_name"
+        "expense_name",
+        "expense_amount",
+        "expense_type",
+        "expense_date"
       ],
       "properties": {
-        "first_name": {
+        "expense_id": {
           "type": "string"
         },
-        "last_name": {
+        "expense_amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "expense_type": {
           "type": "string"
         },
-        "portfolio": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/portfolio"
-          }
-        }
-      }
-    },
-    "investment": {
-      "type": "object",
-      "required": [
-        "initial_investment",
-        "date",
-        "investment_type",
-        "rate"
-      ],
-      "properties": {
-        "investor_id": {
-          "type": "string"
-        },
-        "investment_id": {
-          "type": "number"
-        },
-        "initial_investment": {
-          "type": "number"
-        },
-        "current_investment": {
-          "type": "number"
-        },
-        "investment_type": {
-          "type": "string"
-        },
-        "investment_details": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
-        },
-        "start_date": {
+        "expense_date": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
-        "end_date": {
+        "created_date": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
-        "rate": {
-          "type": "number"
-        },
-        "transactions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/transaction"
-          }
-        }
-      }
-    },
-    "transaction": {
-      "type": "object",
-      "required": [
-        "date",
-        "time",
-        "investment_id",
-        "investor_id",
-        "transaction_type",
-        "description",
-        "previous_amount",
-        "current_amount"
-      ],
-      "properties": {
-        "current_amount": {
-          "type": "number"
-        },
-        "previous_amount": {
-          "type": "number"
-        },
-        "date": {
+        "updated_date": {
           "type": "string",
-          "format": "date"
+          "format": "date-time"
         },
-        "time": {
-          "type": "string",
-          "format": "time"
-        },
-        "investment_id": {
-          "type": "string"
-        },
-        "investor_id": {
-          "type": "string"
-        },
-        "transaction_type": {
+        "is_delete": {
           "type": "boolean"
         },
-        "description": {
+        "create_by": {
+          "type": "string"
+        },
+        "update_by": {
+          "type": "string"
+        },
+        "login_id": {
+          "type": "string"
+        },
+        "expense_name": {
           "type": "string"
         }
       }
     },
-    "portfolio": {
+    "Income": {
+      "type": "object",
       "properties": {
-        "investor_id": {
+        "incomeId": {
           "type": "string"
         },
-        "investments": {
+        "incomeAmount": {
+          "type": "number",
+          "format": "double"
+        },
+        "incomeType": {
+          "type": "string"
+        },
+        "incomeDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "updatedBy": {
+          "type": "string"
+        },
+        "isDelete": {
+          "type": "boolean"
+        },
+        "createdDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Investments": {
+      "type": "object",
+      "properties": {
+        "investmentsId": {
+          "type": "string"
+        },
+        "investmentsAmount": {
+          "type": "number",
+          "format": "double"
+        },
+        "investmentsType": {
+          "type": "string"
+        },
+        "investmentsDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "updatedBy": {
+          "type": "string"
+        },
+        "isDelete": {
+          "type": "boolean"
+        },
+        "createdDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "dateRange": {
+      "type": "object",
+      "properties": {
+        "fromExpenseDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "toExpenseDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "Expense": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/investment"
+            "$ref": "#/definitions/Expense"
+          }
+        },
+        "Income": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Income"
+          }
+        },
+        "Investments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Investments"
           }
         }
       }
     },
-    "investor_name": {
+    "BankAccount": {
+      "type": "object",
       "properties": {
-        "first_name": {
+        "bankAccountId": {
           "type": "string"
         },
-        "last_name": {
+        "accountNumber": {
+          "type": "number",
+          "format": "int64"
+        },
+        "accountHolderName": {
+          "type": "string"
+        },
+        "accountType": {
+          "type": "string"
+        },
+        "bankName": {
+          "type": "string"
+        },
+        "ifscCode": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "updatedBy": {
+          "type": "string"
+        },
+        "isDelete": {
+          "type": "boolean"
+        },
+        "createdDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "profile_emailid": {
+      "type": "string",
+      "required": [
+        "profile_emailid"
+      ],
+      "properties": {
+        "profile_emailid": {
+          "type": "string"
+        }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "required": [
+        "firstName",
+        "lastName",
+        "emailId",
+        "contactNumber",
+        "companyName",
+        "profileImage"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "contactNumber": {
+          "type": "string"
+        },
+        "companyName": {
+          "type": "string"
+        },
+        "profileImage": {
+          "type": "string"
+        }
+      }
+    },
+    "userPassword": {
+      "type": "object",
+      "required": [
+        "emailId",
+        "newPassword",
+        "confirmPassword"
+      ],
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        },
+        "confirmPassword": {
+          "type": "string"
+        }
+      }
+    },
+    "userCurrency": {
+      "type": "object",
+      "required": [
+        "emailId",
+        "oldCurrency",
+        "newCurrency"
+      ],
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+        "oldCurrency": {
+          "type": "string"
+        },
+        "newCurrency": {
+          "type": "string"
+        }
+      }
+    },
+    "userSettingsByEmailId": {
+      "type": "object",
+      "required": [
+        "emailId",
+        "password",
+        "currency"
+      ],
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "currency": {
           "type": "string"
         }
       }
     }
-  }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Bearer",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
 }

@@ -1,2 +1,2 @@
 # PersonalFinanceManagerAPI
-PFM (Personal Finance Manager) product backend API application
+PFM (Personal Finance Manager) product backend REST API application
